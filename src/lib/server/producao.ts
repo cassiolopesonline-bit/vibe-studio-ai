@@ -1,8 +1,8 @@
 import path from "path";
 import fs from "fs";
-import { generateSpeech, getMusic } from "./audio.js";
-import { generateMedia } from "./midia.js";
-import { assembleVideo } from "./montagem.js";
+import { generateSpeech, getMusic } from "./audio.ts";
+import { generateMedia } from "./midia.ts";
+import { assembleVideo } from "./montagem.ts";
 import { v4 as uuidv4 } from "uuid";
 
 export async function produzirVideo(config: any, script: any) {
