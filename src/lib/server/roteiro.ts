@@ -4,7 +4,7 @@ export async function gerarRoteiro(tema: string, duracao: number, tom: string, i
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) throw new Error("GEMINI_API_KEY is required");
 
-  const ai = new GoogleGenAI({ apiKey });
+  const ai = new GoogleGenerativeAI(apiKey);
   const model = ai.models.generateContent({
     model: "gemini-3-flash-preview",
     contents: `Crie um roteiro estruturado para um vídeo de ${duracao} minutos sobre o tema: "${tema}". 
