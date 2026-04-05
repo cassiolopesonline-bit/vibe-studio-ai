@@ -149,8 +149,12 @@ async function startServer() {
     });
     app.use(vite.middlewares);
   } else {
-   const distPath = path.join(process.cwd(), 'src');
+  const distPath = path.resolve(__dirname, 'src');
+    
+    // Libera a pasta src para o navegador ler os arquivos .tsx e .css
     app.use(express.static(distPath));
+    
+    // Garante que o index.html seja entregue em qualquer página
     app.get('*', (req, res) => {
       res.sendFile(path.join(distPath, 'index.html'));
     });
