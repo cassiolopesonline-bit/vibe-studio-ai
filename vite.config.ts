@@ -4,8 +4,8 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   server: {
-    // Permite que o site abra no Render
-    allowedHosts: ['vibe-studio-ai.onrender.com'],
+    // Isso aqui é a "chave mestra" que libera o acesso de qualquer lugar
+    allowedHosts: true,
     host: true,
     port: 10000
   }
