@@ -1,4 +1,4 @@
-import { GoogleGenAI, GenerateContentResponse, Modality, Type, VideoGenerationReferenceType } from "@google/genai";
+import { GoogleGenAI, GenerateContentResponse, Modality, Type, VideoGenerationReferenceType } from "@google/generative-ai";
 
 // We'll initialize this inside the functions to ensure we get the latest API key
 const getAI = () => {
