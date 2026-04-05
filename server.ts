@@ -4,16 +4,13 @@ import path from 'path';
 const app = express();
 const PORT = process.env.PORT || 10000;
 
-// Define o caminho da pasta src onde está o seu index.html
-const publicPath = path.join(process.cwd(), 'src');
+// O segredo está aqui: ler a pasta 'dist' que o comando build vai criar
+const distPath = path.join(process.cwd(), 'dist');
 
-// Middleware para entender JSON (importante para a IA)
-app.use(express.json());
-app.use(express.static(publicPath));
+app.use(express.static(distPath));
 
-// Rota principal que entrega o seu site
 app.get('*', (req, res) => {
-  res.sendFile(path.join(publicPath, 'index.html'));
+  res.sendFile(path.join(distPath, 'index.html'));
 });
 
 app.listen(PORT, () => {
