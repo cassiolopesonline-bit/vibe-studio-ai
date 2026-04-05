@@ -149,7 +149,7 @@ async function startServer() {
     });
     app.use(vite.middlewares);
   } else {
-  const distPath = path.resolve(__dirname, 'src');
+ const distPath = path.resolve(__dirname, 'src');
     
     // Libera a pasta src para o navegador ler os arquivos .tsx e .css
     app.use(express.static(distPath));
