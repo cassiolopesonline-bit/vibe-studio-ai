@@ -1,4 +1,4 @@
-import { GoogleGenAI, Type } from "@google/generative-ai";
+import { GoogleGenerativeAI, Type } from "@google/generative-ai";
 
 export async function gerarRoteiro(tema: string, duracao: number, tom: string, idioma: string, template: string = "Livre") {
   const apiKey = process.env.GEMINI_API_KEY;
