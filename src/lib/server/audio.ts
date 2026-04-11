@@ -6,10 +6,15 @@ export async function generateSpeech(cenas: any[], voice: string, outputPath: st
   const tts = new MsEdgeTTS();
   const textoCompleto = cenas.map(c => c.narracao || c.roteiro).join(" ");
 
-  // O servidor agora aceita os IDs que o novo visual vai mandar
+  // Mapeia o que vem do visual para a voz real da Microsoft
   let voiceName = voice || "pt-BR-AntonioNeural"; 
+  
+  // Garante que se vier um ID antigo da Google, ele mude para o gratuito
+  if (voiceName.includes('Wavenet') || voiceName.includes('Standard')) {
+    voiceName = voiceName.includes('Feminina') ? "pt-BR-FranciscaNeural" : "pt-BR-AntonioNeural";
+  }
 
-  console.log(`Narração independente iniciada: ${voiceName}`);
+  console.log(`🎤 Gerando áudio gratuito: ${voiceName}`);
 
   try {
     await tts.setMetadata(voiceName, OUTPUT_FORMAT.AUDIO_24KHZ_48KBITRATE_MONO_MP3);
@@ -22,7 +27,7 @@ export async function generateSpeech(cenas: any[], voice: string, outputPath: st
       writable.on('error', reject);
     });
   } catch (error) {
-    console.error("Erro no áudio gratuito:", error);
+    console.error("❌ Erro no áudio:", error);
     throw error;
   }
 }
