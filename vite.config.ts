@@ -1,13 +1,16 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import tailwindcss from '@tailwindcss/vite';
 import path from 'path';
 
 export default defineConfig({
-  plugins: [react()],
-  // ISSO AQUI DIZ AO VITE ONDE ESTÁ O INDEX.HTML
+  // Isso garante que os caminhos dos arquivos de estilo fiquem corretos
+  base: '/',
+  plugins: [react(), tailwindcss()],
+  // Aponta para a pasta onde está seu index.html
   root: 'src',
   build: {
-    // ISSO DIZ ONDE SALVAR O SITE PRONTO
+    // Salva o site pronto na pasta dist para o Render ler
     outDir: '../dist',
     emptyOutDir: true,
   },
