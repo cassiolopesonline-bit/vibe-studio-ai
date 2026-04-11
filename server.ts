@@ -4,7 +4,7 @@ import path from 'path';
 const app = express();
 const PORT = process.env.PORT || 10000;
 
-// O segredo está aqui: ler a pasta 'dist' que o comando build vai criar
+// O servidor vai ler a pasta 'dist', que o Render vai gerar
 const distPath = path.join(process.cwd(), 'dist');
 
 app.use(express.static(distPath));
