@@ -5,7 +5,6 @@ export async function gerarRoteiro(tema: string, duracao: number, tom: string, i
   if (!apiKey) throw new Error("GEMINI_API_KEY is required");
 
   const genAI = new GoogleGenerativeAI(apiKey);
-  // Usando o modelo 1.5 Flash que é super rápido e estável
   const model = genAI.getGenerativeModel({
     model: "gemini-1.5-flash",
     generationConfig: {
