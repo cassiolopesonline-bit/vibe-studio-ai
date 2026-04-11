@@ -12,6 +12,7 @@ const PORT = process.env.PORT || "10000";
 app.use(cors());
 app.use(express.json({ limit: '50mb' }));
 
+// Rotas da API
 app.post("/api/generate-script", async (req, res) => {
   try {
     const { tema, duracao, tom, idioma, template } = req.body;
@@ -32,6 +33,7 @@ app.post("/api/produce-video", async (req, res) => {
   }
 });
 
+// Arquivos estáticos do Frontend
 const distPath = path.join(process.cwd(), 'dist');
 app.use(express.static(distPath));
 app.use('/temp', express.static(path.join(process.cwd(), 'temp')));
@@ -41,5 +43,5 @@ app.get('*', (req, res) => {
 });
 
 app.listen(Number(PORT), "0.0.0.0", () => {
-  console.log(`🚀 VibeStudio online na porta ${PORT}`);
+  console.log(`🚀 VibeStudio rodando na porta ${PORT}`);
 });
