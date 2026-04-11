@@ -4,41 +4,29 @@ import fs from 'fs';
 
 export async function generateSpeech(cenas: any[], voice: string, outputPath: string, config: any) {
   const tts = new MsEdgeTTS();
-  
-  // Juntamos todo o texto das cenas para narrar de uma vez
-  const textoCompleto = cenas.map(c => c.roteiro).join(" ");
+  const textoCompleto = cenas.map(c => c.narracao || c.roteiro).join(" ");
 
-  // Mapeamos os nomes das vozes para as vozes reais da Microsoft
-  // Se não encontrar, ele usa o Antonio (Masculino) ou Francisca (Feminino)
-  let voiceName = "pt-BR-AntonioNeural"; 
-  if (voice.toLowerCase().includes('feminina')) voiceName = "pt-BR-FranciscaNeural";
+  // O servidor agora aceita os IDs que o novo visual vai mandar
+  let voiceName = voice || "pt-BR-AntonioNeural"; 
 
-  console.log(`Gerando narração com a voz: ${voiceName}...`);
+  console.log(`Narração independente iniciada: ${voiceName}`);
 
   try {
     await tts.setMetadata(voiceName, OUTPUT_FORMAT.AUDIO_24KHZ_48KBITRATE_MONO_MP3);
     const readable = tts.push(textoCompleto);
-    
     const writable = fs.createWriteStream(outputPath);
     readable.pipe(writable);
 
     return new Promise((resolve, reject) => {
-      writable.on('finish', () => {
-        console.log("Narração concluída com sucesso!");
-        resolve(outputPath);
-      });
+      writable.on('finish', () => resolve(outputPath));
       writable.on('error', reject);
     });
   } catch (error) {
-    console.error("Erro na narração independente:", error);
+    console.error("Erro no áudio gratuito:", error);
     throw error;
   }
 }
 
-// Função para música (mantendo a estrutura que seu app espera)
 export async function getMusic(musicStyle: string, projectDir: string) {
-  const musicPath = path.join(projectDir, 'music.mp3');
-  // Aqui você pode colocar uma lógica para baixar música livre ou um arquivo padrão
-  console.log(`Buscando trilha sonora: ${musicStyle}...`);
-  return musicPath;
+  return path.join(projectDir, 'music.mp3');
 }
