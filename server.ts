@@ -4,16 +4,18 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 // Estas funções abaixo precisam existir na sua pasta src/lib/server/
 import { gerarRoteiro } from "./src/lib/server/roteiro.ts";
-import { produzirVideo, editarVideo } from "./src/lib/server/producao.ts";
+import { produzirVideo } from "./src/lib/server/producao.ts";
 
 dotenv.config();
 const app = express();
-const PORT = process.env.PORT || 10000;
+
+// O Render injeta a porta automaticamente. Se não houver, usamos a 10000.
+const PORT = process.env.PORT || "10000";
 
 app.use(cors());
 app.use(express.json({ limit: '50mb' }));
 
-// 1. Rota para Gerar Roteiro (O que deu erro antes)
+// 1. Rota para Gerar Roteiro
 app.post("/api/generate-script", async (req, res) => {
   try {
     const { tema, duracao, tom, idioma, template } = req.body;
@@ -46,6 +48,8 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(distPath, 'index.html'));
 });
 
-app.listen(PORT, "0.0.0.0", () => {
-  console.log(`Servidor rodando na porta ${PORT}`);
+// O segredo está aqui: Escutar em 0.0.0.0 e converter a PORT para número
+app.listen(Number(PORT), "0.0.0.0", () => {
+  console.log(`🚀 VibeStudio rodando com sucesso!`);
+  console.log(`Porta: ${PORT} | Host: 0.0.0.0`);
 });
