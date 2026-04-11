@@ -2,20 +2,16 @@ import express from 'express';
 import path from 'path';
 import cors from 'cors';
 import dotenv from 'dotenv';
-// Estas funções abaixo precisam existir na sua pasta src/lib/server/
 import { gerarRoteiro } from "./src/lib/server/roteiro.ts";
 import { produzirVideo } from "./src/lib/server/producao.ts";
 
 dotenv.config();
 const app = express();
-
-// O Render injeta a porta automaticamente. Se não houver, usamos a 10000.
 const PORT = process.env.PORT || "10000";
 
 app.use(cors());
 app.use(express.json({ limit: '50mb' }));
 
-// 1. Rota para Gerar Roteiro
 app.post("/api/generate-script", async (req, res) => {
   try {
     const { tema, duracao, tom, idioma, template } = req.body;
@@ -26,7 +22,6 @@ app.post("/api/generate-script", async (req, res) => {
   }
 });
 
-// 2. Rota para Produzir o Vídeo
 app.post("/api/produce-video", async (req, res) => {
   try {
     const { config, script } = req.body;
@@ -37,19 +32,14 @@ app.post("/api/produce-video", async (req, res) => {
   }
 });
 
-// Serve os arquivos prontos do site
 const distPath = path.join(process.cwd(), 'dist');
 app.use(express.static(distPath));
-
-// Serve a pasta temp para os previews de vídeo
 app.use('/temp', express.static(path.join(process.cwd(), 'temp')));
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(distPath, 'index.html'));
 });
 
-// O segredo está aqui: Escutar em 0.0.0.0 e converter a PORT para número
 app.listen(Number(PORT), "0.0.0.0", () => {
-  console.log(`🚀 VibeStudio rodando com sucesso!`);
-  console.log(`Porta: ${PORT} | Host: 0.0.0.0`);
+  console.log(`🚀 VibeStudio online na porta ${PORT}`);
 });
