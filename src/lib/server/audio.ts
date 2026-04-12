@@ -5,9 +5,7 @@ import fs from 'fs';
 export async function generateSpeech(cenas: any[], voice: string, outputPath: string) {
   const tts = new MsEdgeTTS();
   const textoCompleto = cenas.map(c => c.narracao || c.roteiro).join(" ");
-  
-  // Força o uso do Antonio Neural (Voz excelente e grátis)
-  const voiceName = "pt-BR-AntonioNeural"; 
+  const voiceName = voice || "pt-BR-AntonioNeural"; 
 
   try {
     await tts.setMetadata(voiceName, OUTPUT_FORMAT.AUDIO_24KHZ_48KBITRATE_MONO_MP3);
@@ -20,7 +18,7 @@ export async function generateSpeech(cenas: any[], voice: string, outputPath: st
       writable.on('error', reject);
     });
   } catch (error) {
-    console.error("Erro no áudio:", error);
+    console.error("Erro no áudio gratuito:", error);
     throw error;
   }
 }
