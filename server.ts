@@ -10,35 +10,23 @@ const app = express();
 const PORT = process.env.PORT || "10000";
 
 app.use(cors());
-app.use(express.json({ limit: '50mb' }));
+app.use(express.json());
 
 app.post("/api/generate-script", async (req, res) => {
-  try {
-    const { tema, duracao, tom, idioma, template } = req.body;
-    const script = await gerarRoteiro(tema, duracao, tom, idioma, template);
-    res.json(script);
-  } catch (error: any) {
-    res.status(500).json({ error: error.message });
-  }
+  const { tema } = req.body;
+  const script = await gerarRoteiro(tema, 1, "Informativo", "Português BR");
+  res.json(script);
 });
 
 app.post("/api/produce-video", async (req, res) => {
-  try {
-    const { config, script } = req.body;
-    const result = await produzirVideo(config, script);
-    res.json(result);
-  } catch (error: any) {
-    res.status(500).json({ error: error.message });
-  }
+  const { config, script } = req.body;
+  const result = await produzirVideo(config, script);
+  res.json(result);
 });
 
 app.use(express.static(path.join(process.cwd(), 'dist')));
 app.use('/temp', express.static(path.join(process.cwd(), 'temp')));
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(process.cwd(), 'dist', 'index.html'));
-});
+app.get('*', (req, res) => res.sendFile(path.join(process.cwd(), 'dist', 'index.html')));
 
-app.listen(Number(PORT), "0.0.0.0", () => {
-  console.log(`🚀 Servidor rodando na porta ${PORT}`);
-});
+app.listen(Number(PORT), "0.0.0.0", () => console.log(`Servidor na porta ${PORT}`));
